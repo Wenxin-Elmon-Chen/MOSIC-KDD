@@ -1,4 +1,4 @@
-# MOSIC3: Multiple Objective Subgroup Identification with Constraints
+# MOSIC3: Model-agnostic Optimal Subgroup Identification with multi-Constraint
 
 MOSIC3 is a machine learning framework for identifying optimal subgroups in causal inference settings with multiple constraints. The framework supports various identifier types (MLP, GradTree) and can handle constraints such as budget limits, safety requirements, and fairness considerations.
 
