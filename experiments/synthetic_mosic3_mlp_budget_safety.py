@@ -102,17 +102,16 @@ for seed in seeds:
 
     train_sensitive_indicator = np.array(train_X[:, 3] > 0.5, dtype=int)
     test_sensitive_indicator = np.array(test_X[:, 3] > 0.5, dtype=int)
-    train_sensitive_ratio = train_sensitive_indicator.mean()
-    test_sensitive_ratio = test_sensitive_indicator.mean()
-    train_fairness_diff_limit = 0.1
-    test_fairness_diff_limit = 0.1
+    sensitive_ratio_target = 0.5
+    train_fairness_diff_limit = 0.01
+    test_fairness_diff_limit = 0.01
 
 
     # extra_constraint_normalize = torch.tensor([True, True, True, False], dtype=torch.bool)
     extra_constraint_normalize = torch.tensor([True, False], dtype=torch.bool)
 
     test_safety = test_safety_risk.mean()
-    print(f"Original Test set: safety: {test_safety}, sensitive ratio: {test_sensitive_ratio}, budget limit: {test_budget_limit * test_X.shape[0]}, cost sum: {test_cost.sum()}")
+    print(f"Original Test set: safety: {test_safety}, sensitive ratio target: {sensitive_ratio_target}, budget limit: {test_budget_limit * test_X.shape[0]}, cost sum: {test_cost.sum()}")
 
     # Grid search over beta and hidden_size
     results = []
@@ -142,8 +141,8 @@ for seed in seeds:
                     tr_pred_Y1, val_pred_Y1 = pred_Y1_train[tr_index], pred_Y1_train[val_index]
 
                     tr_extra_constraint_a = torch.tensor([-train_safety_risk_limit, 
-                                        #  -(train_fairness_diff_limit + train_sensitive_ratio), 
-                                        #  -train_fairness_diff_limit+train_sensitive_ratio,
+                                        #  -(train_fairness_diff_limit + sensitive_ratio_target), 
+                                        #  -train_fairness_diff_limit+sensitive_ratio_target,
                                          -train_budget_limit], dtype=torch.float32)
                     tr_extra_constraint_coeffs = torch.tensor(np.vstack([train_safety_risk[tr_index], 
                                                                             # train_sensitive_indicator[tr_index], 
@@ -214,8 +213,8 @@ for seed in seeds:
         identifier = TwoLayerMLP(input_size=train_X.shape[1], hidden_size=50 if best_hidden_size is None else best_hidden_size)
         
         train_extra_constraint_a = torch.tensor([-train_safety_risk_limit, 
-                                        #  -(train_fairness_diff_limit + train_sensitive_ratio), 
-                                        #  -train_fairness_diff_limit+train_sensitive_ratio,
+                                        #  -(train_fairness_diff_limit + sensitive_ratio_target), 
+                                        #  -train_fairness_diff_limit+sensitive_ratio_target,
                                          -train_budget_limit], dtype=torch.float32)
         train_extra_constraint_coeffs = torch.tensor(np.vstack([train_safety_risk, 
                                                                 # train_sensitive_indicator, 
@@ -277,7 +276,8 @@ for seed in seeds:
         test_ate_cate = (pred_Y1_test[test_selected_idx])[test_a[test_selected_idx] == 1].mean() - (pred_Y0_test[test_selected_idx])[test_a[test_selected_idx] == 0].mean()
         test_g_size = (test_selected_idx).mean()
         test_safety = test_safety_risk[test_selected_idx].mean()
-        test_ratio_diff = np.abs(test_sensitive_indicator[test_selected_idx].mean() - test_sensitive_ratio)
+        test_sensitive_ratio = test_sensitive_indicator[test_selected_idx].mean()
+        test_ratio_diff = np.abs(test_sensitive_indicator[test_selected_idx].mean() - sensitive_ratio_target)
         test_cost_sum = test_cost[test_selected_idx].sum()
         print(f"Test set: group size: {test_g_size}, gt cate: {test_gt_cate}, ate aiptw: {test_ate_aiptw}, n unbalance: {test_n_unbalance}")
         
@@ -291,6 +291,7 @@ for seed in seeds:
                 'test_ate_aiptw': test_ate_aiptw,
                 'test_n_unbalance': test_n_unbalance,        
                 'test_safety': test_safety,
+                'test_sensitive_ratio': test_sensitive_ratio,
                 'test_ratio_diff': test_ratio_diff,
                 'test_cost_sum': test_cost_sum,
             },
