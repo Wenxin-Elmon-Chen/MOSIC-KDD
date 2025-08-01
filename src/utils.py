@@ -9,38 +9,6 @@ def fill_na_value(data, X_cols):
     assert not data.isnull().values.any()
     return data
 
-def phi(event_times, event_observed):
-    """
-    Calculate ranking loss for a given set of event times and event indicators.
-    phi((y_i, t_i),(y_j, t_j)) = 1 if t_i < t_j and y_i ==1 ; -1 if t_i > t_j and y_j == 1; 0 otherwise
-
-    Parameters:
-    # event_times: np.ndarray of event/censoring times. (n,)
-    # event_observed: np.ndarray of event indicators (1 if the event was observed, 0 if censored). (n,)
-    # event_times: torch.tensor of event/censoring times. (n,)
-    # event_observed: torch.tensor of event indicators (1 if the event was observed, 0 if censored). (n,)
-
-    Returns:
-    torch.tensor of pairwise ranking loss. (n, n)
-    """
-    n = event_times.shape[0]
-
-    # Create pairwise comparisons
-    event_times_i = event_times.unsqueeze(1).expand(n, n).T
-    event_times_j = event_times_i.T
-
-    event_observed_i = event_observed.unsqueeze(1).expand(n, n).T
-    event_observed_j = event_observed_i.T
-
-    # Calculate the ranking loss
-    phi_mat = torch.zeros((n, n), device=event_times.device)
-    i_gt_j_mask = ((event_times_i > event_times_j) & (event_observed_j == 1)).T
-    i_lt_j_mask = ((event_times_i < event_times_j) & (event_observed_i == 1)).T
-    phi_mat[i_gt_j_mask] = 1
-    phi_mat[i_lt_j_mask] = -1
-
-    return phi_mat
-
 def mean_difference(treatment_mask, control_mask, weights, X):
     # all the inputs are torch tensors
     # treatment_mask: torch.Tensor, shape (n, 1)
