@@ -32,7 +32,7 @@ MOSIC3/
 ## Setup
 
 ### Prerequisites
-- Python 3.7+
+- Python 3.11+
 - CUDA-capable GPU (optional but recommended)
 
 ### Installation

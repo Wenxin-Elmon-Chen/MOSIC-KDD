@@ -49,7 +49,7 @@ EXPERIMENT_CONFIGS = {
             "depth_list": [3,5,7],
             "beta_list": [1e-5,1e-4,1e-3,1e-2],
             "result_dir": "results",
-            "seeds": list(range(42, 101)),
+            "seeds": list(range(1, 101)),
             "expect_group_sizes": [0.3,0.4,0.5,0.6,0.7,0.8],
             "device": "cuda:1"
         }
@@ -81,7 +81,7 @@ EXPERIMENT_CONFIGS = {
             "hidden_size_list": [50, 100, 200],
             "beta_list": [1e-5, 1e-4, 1e-3, 1e-2],
             "result_dir": "results",
-            "seeds": list(range(47, 101)),  # Add more seeds as needed
+            "seeds": list(range(1, 101)),  # Add more seeds as needed
             "expect_group_sizes": [0.5],
             "device": "cuda:1"
         }
