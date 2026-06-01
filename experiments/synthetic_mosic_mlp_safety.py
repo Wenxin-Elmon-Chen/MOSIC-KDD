@@ -12,8 +12,8 @@ import numpy as np
 import torch
 # from GradTree import GradTreeBlock
 # from ps import LinearModel
-from MOSIC3 import TwoLayerMLP
-from MOSIC3 import MOSIC
+from MOSIC import TwoLayerMLP
+from MOSIC import MOSIC
 from eval_utils import evaluate_result_ContBinary, evaluate_result_ContBinary_DR, evaluate_covariate_balance
 import random
 import ast
@@ -108,7 +108,7 @@ for seed in seeds:
 
 
     # extra_constraint_normalize = torch.tensor([True, True, True, False], dtype=torch.bool)
-    extra_constraint_normalize = torch.tensor([True, False], dtype=torch.bool)
+    extra_constraint_normalize = torch.tensor([True], dtype=torch.bool)
 
     test_safety = test_safety_risk.mean()
     print(f"Original Test set: safety: {test_safety}, sensitive ratio target: {sensitive_ratio_target}, budget limit: {test_budget_limit * test_X.shape[0]}, cost sum: {test_cost.sum()}")
@@ -143,11 +143,15 @@ for seed in seeds:
                     tr_extra_constraint_a = torch.tensor([-train_safety_risk_limit, 
                                         #  -(train_fairness_diff_limit + sensitive_ratio_target), 
                                         #  -train_fairness_diff_limit+sensitive_ratio_target,
-                                         -train_budget_limit], dtype=torch.float32)
+                                        #  -train_budget_limit
+                                         ], 
+                                         dtype=torch.float32)
                     tr_extra_constraint_coeffs = torch.tensor(np.vstack([train_safety_risk[tr_index], 
                                                                             # train_sensitive_indicator[tr_index], 
                                                                             # -train_sensitive_indicator[tr_index],
-                                                                            train_cost[tr_index]/tr_X.shape[0]]).T, dtype=torch.float32)
+                                                                            # train_cost[tr_index]/tr_X.shape[0]
+                                                                            ]).T, 
+                                                                            dtype=torch.float32)
     
                     # Create identifier model
                     identifier = TwoLayerMLP(input_size=tr_X.shape[1], hidden_size=hidden_size)
@@ -215,14 +219,16 @@ for seed in seeds:
         train_extra_constraint_a = torch.tensor([-train_safety_risk_limit, 
                                         #  -(train_fairness_diff_limit + sensitive_ratio_target), 
                                         #  -train_fairness_diff_limit+sensitive_ratio_target,
-                                         -train_budget_limit], dtype=torch.float32)
+                                        #  -train_budget_limit
+                                         ], dtype=torch.float32)
         train_extra_constraint_coeffs = torch.tensor(np.vstack([train_safety_risk, 
                                                                 # train_sensitive_indicator, 
                                                                 # -train_sensitive_indicator,
-                                                                train_cost/train_X.shape[0]]).T, dtype=torch.float32)
+                                                                # train_cost/train_X.shape[0]
+                                                                ]).T, dtype=torch.float32)
         
         
-        # Create MOSIC3 model with best beta
+        # Create MOSIC model with best beta
         model_retrain = MOSIC(
             identifier=identifier,
             identifier_lr=LR,
@@ -305,6 +311,6 @@ for seed in seeds:
         results.append(result)
     
     # Save results with grid search info
-    filename = f"mosic3_{identifier_type}_bugdet_safety_gridsearch_seed{seed}.pkl"
+    filename = f"mosic_{identifier_type}_safety_gridsearch_seed{seed}.pkl"
     with open(os.path.join(result_dir, f"GAMMA_{GAMMA}", filename), 'wb') as f:
         pickle.dump(results, f)

@@ -1,13 +1,13 @@
-# MOSIC3: Model-agnostic Optimal Subgroup Identification with multi-Constraint
+# MOSIC: Model-agnostic Optimal Subgroup Identification with multi-Constraint
 
-MOSIC3 is a machine learning framework for identifying optimal subgroups in causal inference settings with multiple constraints. The framework supports various identifier types (MLP, GradTree) and can handle constraints such as budget limits, safety requirements, and fairness considerations.
+MOSIC is a machine learning framework for identifying optimal subgroups in causal inference settings with multiple constraints. The framework supports various identifier types (MLP, GradTree) and can handle constraints such as budget limits, safety requirements, and fairness considerations.
 
 ## Project Structure
 
 ```
-MOSIC3/
+MOSIC/
 ├── src/                           # Core implementation
-│   ├── MOSIC3.py                 # Main MOSIC3 algorithm
+│   ├── MOSIC.py                 # Main MOSIC algorithm
 │   ├── GradTree.py               # Gradient tree identifier
 │   ├── DecisionTree.py           # Decision tree utilities
 │   ├── ps.py                     # Propensity score estimation
@@ -17,15 +17,15 @@ MOSIC3/
 ├── experiments/                   # Experiment scripts
 │   ├── synthetic_data_generation.py              # Generate synthetic datasets
 │   ├── synthetic_data_train_nuisance_function.py # Generate IPW and DragonNet outputs
-│   ├── synthetic_data_train_mosic3_mlp.py        # MOSIC3 with MLP identifier
-│   ├── synthetic_data_train_mosic3_dt.py         # MOSIC3 with GradTree identifier
-│   ├── synthetic_mosic3_mlp_safety.py            # MOSIC3 with safety constraints
-│   ├── synthetic_mosic3_mlp_budget_safety.py     # MOSIC3 with budget + safety
-│   └── synthetic_mosic3_mlp_budget_safety_fairness.py # MOSIC3 with all constraints
+│   ├── synthetic_data_train_mosic_mlp.py        # MOSIC with MLP identifier
+│   ├── synthetic_data_train_mosic_dt.py         # MOSIC with GradTree identifier
+│   ├── synthetic_mosic_mlp_safety.py            # MOSIC with safety constraints
+│   ├── synthetic_mosic_mlp_budget_safety.py     # MOSIC with budget + safety
+│   └── synthetic_mosic_mlp_budget_safety_fairness.py # MOSIC with all constraints
 ├── data/                          # Generated datasets
 ├── main.py                        # Experiment runner
 ├── notebook/
-|   └──MOSIC3_Example.ipynb           # Jupyter notebook example
+|   └──MOSIC_Example.ipynb           # Jupyter notebook example
 └── requirements.txt               # Python dependencies
 ```
 
@@ -40,7 +40,7 @@ MOSIC3/
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd MOSIC3
+cd MOSIC
 ```
 
 2. Create a virtual environment and install dependencies:
@@ -62,7 +62,7 @@ mkdir -p data/syn-gamma-0 data/syn-gamma-5
 
 **Option 1: Interactive Jupyter Notebook**
 ```bash
-jupyter notebook MOSIC3_Example.ipynb
+jupyter notebook notebook/MOSIC_Example.ipynb
 ```
 
 **Option 2: Run all experiments with default settings**
@@ -92,7 +92,7 @@ This generates:
 
 **Note**: You may need to modify this script to process both GAMMA values (0 and 5) and all seed ranges (1-100).
 
-#### 3. Run MOSIC3 Experiments
+#### 3. Run MOSIC Experiments
 
 Using the experiment runner:
 ```bash
@@ -142,8 +142,8 @@ python main.py --list
 ## Examples
 
 ### Jupyter Notebook Tutorial
-A comprehensive example is provided in `MOSIC3_Example.ipynb` which demonstrates:
+A comprehensive example is provided in `MOSIC_Example.ipynb` which demonstrates:
 - Loading synthetic data with seed=1
 - Setting up budget, safety, and fairness constraints
-- Training a MOSIC3 model with MLP identifier
+- Training a MOSIC model with MLP identifier
 - Evaluating results and constraint satisfaction

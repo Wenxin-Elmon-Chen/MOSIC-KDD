@@ -7,8 +7,8 @@ from typing import Dict, Any, List
 # Default experiment configurations
 EXPERIMENT_CONFIGS = {
     "syn_mlp": {
-        "script": "experiments/synthetic_data_train_mosic3_mlp.py",
-        "description": "MOSIC3 with MLP identifier on synthetic data",
+        "script": "experiments/synthetic_data_train_mosic_mlp.py",
+        "description": "MOSIC with MLP identifier on synthetic data",
         "parameters": {
             "GAMMA": 5,
             "alphas": [0.0,0.02],
@@ -23,8 +23,8 @@ EXPERIMENT_CONFIGS = {
         }
     },
     "syn_mlp_gamma0": {
-        "script": "experiments/synthetic_data_train_mosic3_mlp.py",
-        "description": "MOSIC3 with MLP identifier on synthetic data with gamma=0",
+        "script": "experiments/synthetic_data_train_mosic_mlp.py",
+        "description": "MOSIC with MLP identifier on synthetic data with gamma=0",
         "parameters": {
             "GAMMA": 0,
             "alphas": [0.0,0.02],
@@ -39,8 +39,8 @@ EXPERIMENT_CONFIGS = {
         }
     },
     "syn_dt": {
-        "script": "experiments/synthetic_data_train_mosic3_dt.py",
-        "description": "MOSIC3 with GradTree identifier on synthetic data",
+        "script": "experiments/synthetic_data_train_mosic_dt.py",
+        "description": "MOSIC with GradTree identifier on synthetic data",
         "parameters": {
             "GAMMA": 5,
             "alphas": [0.0,0.02],
@@ -55,8 +55,8 @@ EXPERIMENT_CONFIGS = {
         }
     },
     "syn_dt_gamma0": {
-        "script": "experiments/synthetic_data_train_mosic3_dt.py",
-        "description": "MOSIC3 with GradTree identifier on synthetic data with gamma=0",
+        "script": "experiments/synthetic_data_train_mosic_dt.py",
+        "description": "MOSIC with GradTree identifier on synthetic data with gamma=0",
         "parameters": {
             "GAMMA": 0,
             "alphas": [0.0,0.02],
@@ -71,8 +71,8 @@ EXPERIMENT_CONFIGS = {
         }
     },
     "syn_mlp_budget_safety_fairness": {
-        "script": "experiments/synthetic_mosic3_mlp_budget_safety_fairness.py",
-        "description": "MOSIC3 with MLP identifier on synthetic data with budget, safety and fairness constraints",
+        "script": "experiments/synthetic_mosic_mlp_budget_safety_fairness.py",
+        "description": "MOSIC with MLP identifier on synthetic data with budget, safety and fairness constraints",
         "parameters": {
             "GAMMA": 5,
             "alphas": [0.02],
@@ -87,8 +87,8 @@ EXPERIMENT_CONFIGS = {
         }
     },
     "syn_mlp_budget_safety": {
-        "script": "experiments/synthetic_mosic3_mlp_budget_safety.py",
-        "description": "MOSIC3 with MLP identifier on synthetic data with budget and safety constraints",
+        "script": "experiments/synthetic_mosic_mlp_budget_safety.py",
+        "description": "MOSIC with MLP identifier on synthetic data with budget and safety constraints",
         "parameters": {
             "GAMMA": 5,
             "alphas": [0.02],
@@ -103,8 +103,8 @@ EXPERIMENT_CONFIGS = {
         }
     },
     "syn_mlp_safety": {
-        "script": "experiments/synthetic_mosic3_mlp_safety.py",
-        "description": "MOSIC3 with MLP identifier on synthetic data with safety constraints",
+        "script": "experiments/synthetic_mosic_mlp_safety.py",
+        "description": "MOSIC with MLP identifier on synthetic data with safety constraints",
         "parameters": {
             "GAMMA": 5,
             "alphas": [0.02],

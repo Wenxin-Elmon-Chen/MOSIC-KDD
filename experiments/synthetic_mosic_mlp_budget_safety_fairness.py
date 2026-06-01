@@ -12,8 +12,8 @@ import numpy as np
 import torch
 # from GradTree import GradTreeBlock
 # from ps import LinearModel
-from MOSIC3 import TwoLayerMLP
-from MOSIC3 import MOSIC
+from MOSIC import TwoLayerMLP
+from MOSIC import MOSIC
 from eval_utils import evaluate_result_ContBinary, evaluate_result_ContBinary_DR, evaluate_covariate_balance
 import random
 import ast
@@ -222,7 +222,7 @@ for seed in seeds:
                                                                 train_cost/train_X.shape[0]]).T, dtype=torch.float32)
         
         
-        # Create MOSIC3 model with best beta
+        # Create MOSIC model with best beta
         model_retrain = MOSIC(
             identifier=identifier,
             identifier_lr=LR,
@@ -305,6 +305,6 @@ for seed in seeds:
         results.append(result)
     
     # Save results with grid search info
-    filename = f"mosic3_{identifier_type}_bugdet_safety_fairness_gridsearch_seed{seed}.pkl"
+    filename = f"mosic_{identifier_type}_bugdet_safety_fairness_gridsearch_seed{seed}.pkl"
     with open(os.path.join(result_dir, f"GAMMA_{GAMMA}", filename), 'wb') as f:
         pickle.dump(results, f)
